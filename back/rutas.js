@@ -5,7 +5,15 @@ var router = express.Router();
 
 router.get('/search',(req, res)=>{
     var tagSeach = req.query;
-    var q = "SELECT * FROM product WHERE name LIKE"+ sqlConnection.escape("%"+tagSeach.product+"%")+ "ORDER BY category";
+
+    var producto = tagSeach && tagSeach.product && "name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
+    var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";  
+
+    var where = ("WHERE " + producto + (producto && catFilter && "AND " || "") + catFilter) || "";
+    var orden = tagSeach && tagSeach.order_key && "ORDER BY " + tagSeach.order_key +" " || "ORDER BY category ASC ";
+    var q = "SELECT * FROM product "+ where + orden;
+    console.log(q);
+
     sqlConnection.query(q,(err, rows, fields)=>{
         if (err){
             res.send({message:"error a la DB, reconectar por favór"});
