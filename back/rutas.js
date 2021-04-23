@@ -6,12 +6,12 @@ var router = express.Router();
 router.get('/search',(req, res)=>{
     var tagSeach = req.query;
 
-    var producto = tagSeach && tagSeach.product && "name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
-    var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";  
+    var producto = tagSeach && tagSeach.product && "WHERE name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
+    // var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";  
 
-    var where = ("WHERE " + producto + (producto && catFilter && "AND " || "") + catFilter) || "";
+    // var where = ("WHERE " + producto + (producto && catFilter && "AND " || "") + catFilter) || "";
     var orden = tagSeach && tagSeach.order_key && "ORDER BY " + tagSeach.order_key +" " || "ORDER BY category ASC ";
-    var q = "SELECT * FROM product "+ where + orden;
+    var q = "SELECT * FROM product "+ producto + orden;
     console.log(q);
 
     sqlConnection.query(q,(err, rows, fields)=>{
