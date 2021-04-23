@@ -4,14 +4,16 @@ var router = express.Router();
 
 
 router.get('/search',(req, res)=>{
+    let campos = "p.id id, p.name product, url_image, price, discount, c.name category";
     var tagSeach = req.query;
 
-    var producto = tagSeach && tagSeach.product && "WHERE name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
+    var producto = tagSeach && tagSeach.product && "WHERE p.name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
     // var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";  
 
     // var where = ("WHERE " + producto + (producto && catFilter && "AND " || "") + catFilter) || "";
     var orden = tagSeach && tagSeach.order_key && "ORDER BY " + tagSeach.order_key +" " || "ORDER BY category ASC ";
-    var q = "SELECT * FROM product "+ producto + orden;
+
+    q = "SELECT "+campos+" FROM product p INNER JOIN category c ON p.category = c.id " +producto + orden;
     console.log(q);
 
     sqlConnection.query(q,(err, rows, fields)=>{
