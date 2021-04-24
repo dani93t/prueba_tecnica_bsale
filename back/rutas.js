@@ -33,5 +33,6 @@ router.get("**", (req,res)=>{
     res.redirect(301,'/search');
 })
 
+// WHERE campo IN (1,2,3) sql;
 
 module.exports = router;

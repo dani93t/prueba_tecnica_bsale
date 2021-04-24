@@ -45,9 +45,9 @@ function cargarProductos(json) {
         let productoHTML = "";
         json[v].forEach(p=>{
             productoHTML += `
-        <div class="col-12 col-lg-3">
-            <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
+        <div class="col-12 col-lg-3 bg-white">
             <p class="text-uppercase my-lg-0 px-4">${p.product}</p>
+            <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
             <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span>pesos</p>
             ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
         </div>
