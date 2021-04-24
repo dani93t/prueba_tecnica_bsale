@@ -1,7 +1,7 @@
 {
-  "name": "prueba_tecnica_bsale",
+  "name": "back-bsales-tech-test",
   "version": "1.0.0",
-  "description": "prueba tecnica de Bsale para postular a cargo",
+  "description": "componente servidor de prueba tecnica",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",

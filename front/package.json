@@ -1,0 +1,15 @@
+{
+  "name": "front-bsales-tech-test",
+  "version": "1.0.0",
+  "description": "componente front de prueba tecnica para bsales",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server -s",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "daniel toro",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}

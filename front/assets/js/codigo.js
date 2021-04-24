@@ -1,15 +1,20 @@
-console.log(window.location.search);
-var busqueda = window.location.search || "";
+window.onload = (event) => {
+    var busqueda = window.location.search || "";
+    cargar(busqueda);
+};
 
-fetch("http://localhost:3600/search"+ busqueda, {
-    method: 'GET',
-    headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-    }
-}).then(response=>response.json())
-.then(json=>agrupar(json))
-.then(json=>cargarProductos(json));
-
+function cargar(params) {
+    fetch("http://localhost:3600/search"+ params, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    }).then(response=>response.json())
+    .then(json=>agrupar(json))
+    .then(json=>cargarProductos(json)).catch(
+        err=>console.log(err)
+    );
+}
 
 function agrupar(json) {
     let jsonAgrupado = {};
@@ -42,13 +47,13 @@ function cargarProductos(json) {
             productoHTML += `
         <div class="col-12 col-lg-3">
             <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
-            <p class="text-uppercase">${p.product}</p>
-            <p>$${p.price} pesos</p>
-            <p>${p.discount}% de descuento</p>
+            <p class="text-uppercase my-lg-0 px-4">${p.product}</p>
+            <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span>pesos</p>
+            ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
         </div>
         `;});
         productos.innerHTML = productoHTML;
-
-    })
+    });
 }
-// document.querySelector("[id='bebida energetica'] h6")
+
+document.getElementById("formulario").addEventListener("submit",(event)=>console.log("submiteado"));
