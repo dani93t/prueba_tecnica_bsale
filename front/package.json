@@ -4,7 +4,7 @@
   "description": "componente front de prueba tecnica para bsales",
   "main": "index.js",
   "scripts": {
-    "serve": "http-server",
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "daniel toro",

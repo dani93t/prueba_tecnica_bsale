@@ -1,23 +1,27 @@
 window.onload = (event) => {
     var busqueda = window.location.search || "";
     var hostBack = "http://localhost:3600";    
-    cargar(busqueda,hostBack);
+    conexionBack(busqueda,hostBack);
 };
 
-function cargar(params,host) {
+// función que realiza la conexion al backend para obtener los datos solicitados
+// lo cual lo hace mediante una petición asincrónica
+function conexionBack(params,host) {
     fetch( host +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         }
     }).then(response=>response.json())
-    .then(json=>agrupar(json))
-    .then(json=>cargarProductos(json)).catch(
+    .then(json=>agruparByCategoria(json))
+    .then(json=>mostrarProductos(json)).catch(
         err=>console.log(err)
     );
 }
 
-function agrupar(json) {
+// funcion que agrupa el json resultante de la base de datos en 
+// categorías independientes
+function agruparByCategoria(json) {
     let jsonAgrupado = {};
     json.forEach((v)=> { 
         if(!jsonAgrupado[v.category]) jsonAgrupado[v.category]=[];
@@ -25,7 +29,8 @@ function agrupar(json) {
     return jsonAgrupado;
 }
 
-function cargarProductos(json) {
+// funcion que se encarga de rellenar los productos en el html
+function mostrarProductos(json) {
     let categorias = document.getElementById("productos");
     let categoriasHTML = "";
     Object.keys(json).forEach(v=>{
@@ -59,4 +64,4 @@ function cargarProductos(json) {
     });
 }
 
-document.getElementById("formulario").addEventListener("submit",(event)=>console.log("submiteado"));
+// document.getElementById("formulario").addEventListener("submit",(event)=>console.log("submiteado"));
