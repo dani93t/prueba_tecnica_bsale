@@ -1,10 +1,11 @@
 window.onload = (event) => {
     var busqueda = window.location.search || "";
-    cargar(busqueda);
+    var hostBack = "http://localhost:3600";    
+    cargar(busqueda,hostBack);
 };
 
-function cargar(params) {
-    fetch("http://localhost:3600/search"+ params, {
+function cargar(params,host) {
+    fetch( host +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -45,11 +46,13 @@ function cargarProductos(json) {
         let productoHTML = "";
         json[v].forEach(p=>{
             productoHTML += `
-        <div class="col-12 col-lg-3 bg-white">
-            <p class="text-uppercase my-lg-0 px-4">${p.product}</p>
-            <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
-            <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span>pesos</p>
-            ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
+        <div class="col-6 col-lg-3 my-4">
+            <div class="bg-white h-100 shadow-sm">
+                <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
+                <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
+                <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
+                ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
+            </div>
         </div>
         `;});
         productos.innerHTML = productoHTML;
