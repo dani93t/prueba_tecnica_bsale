@@ -4,9 +4,6 @@
   "description": "por rellenar",
   "main": "index.html",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run start-back\" \"npm run start-front\"",
-    "start-back": "node ./back/index.js",
-    "start-front": "./front/node_modules/.bin/http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,11 +17,6 @@
     "url": "https://github.com/dani93t/prueba_tecnica_bsales/issues"
   },
   "homepage": "https://github.com/dani93t/prueba_tecnica_bsales#readme",
-  "devDependencies": {
-    "concurrently": "^6.0.2",
-    "lite-server": "^2.6.1",
-    "npm-run-all": "^4.1.5"
-  },
   "dependencies": {
     "back-bsales-tech-test": "file:back",
     "front-bsales-tech-test": "file:front"

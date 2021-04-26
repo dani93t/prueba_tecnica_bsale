@@ -1,6 +1,11 @@
 window.onload = (event) => {
     var busqueda = window.location.search || "";
-    var hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+
+    // usar uno de los dos según el entorno, por defecto usar el localhost
+
+    // var hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+    var hostBack = "http://127.0.0.1:3000";    
+    
     conexionBack(busqueda,hostBack);
 };
 
@@ -33,6 +38,7 @@ function agruparByCategoria(json) {
 function mostrarProductos(json) {
     let categorias = document.getElementById("productos");
     let categoriasHTML = "";
+    // dibuja en el HTML las categorías
     Object.keys(json).forEach(v=>{
         categoriasHTML += `
         <article class="my-5" id="${v.replace(" ","-")}">
@@ -46,6 +52,7 @@ function mostrarProductos(json) {
     )
     categorias.innerHTML = categoriasHTML;
 
+    // dibuja en el HTML los productos
     Object.keys(json).forEach(v=>{
         let productos = document.querySelector("#"+v.replace(" ","-")+" .row");
         let productoHTML = "";
