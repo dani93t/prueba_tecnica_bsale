@@ -64,10 +64,8 @@ function mostrarProductos(json) {
                     <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
                 </div>
                 <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
-                <div class="p-precio">
-                    <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
-                    ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
-                </div>
+                <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
+                ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
             </div>
         </div>
         `;});
