@@ -10,7 +10,7 @@ Para usarlo de manera local, debe iniciar el front y el back de manera independi
 
 primero, debe descargar o clonar el repositorio
 ```
-git clone https://github.com/dani93t/prueba_tecnica_bsales.git
+git clone https://github.com/dani93t/prueba_tecnica_bsale.git
 ```
 
 Para iniciar el lado back, debe hacer lo siguiente:
