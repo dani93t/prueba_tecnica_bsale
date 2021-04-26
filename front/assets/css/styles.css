@@ -1,3 +1,10 @@
 .tached{
     text-decoration-line: line-through;
 }
+.p-titulo{height: 4em;}
+.p-image{
+    height: 250px;
+    padding: 2em;
+    object-fit: contain;
+}
+.p-precio{height: 4em;}

@@ -4,8 +4,11 @@
   "description": "componente servidor de prueba tecnica",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js -s",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./index.js"
+  },
+  "engines": {
+    "node": "5.0.0",
+    "npm": "4.6.1"
   },
   "keywords": [
     "api",
@@ -16,8 +19,5 @@
   "dependencies": {
     "express": "^4.17.1",
     "mysql": "^2.18.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.7"
   }
 }

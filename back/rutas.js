@@ -1,44 +1,35 @@
-var express = require('express');
-var sqlConnection = require('./db');
-var router = express.Router();
+const express = require('express')
+const sqlConnection = require('./db')
+const router = express.Router()
 
+router.get('/search', (req, res) => {
+  const campos = 'p.id id, p.name product, url_image, price, discount, c.name category'
+  const tagSeach = req.query
 
-// función que procesa la solicitud desde el front y retorna la lista de productos 
-router.get('/search',(req, res)=>{
-    var tagSeach = req.query;
+  const producto = tagSeach && tagSeach.product && 'WHERE p.name LIKE ' + sqlConnection.escape('%' + tagSeach.product + '%') + ' ' || ''
+  // var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";
 
-    // CAMPOS A ENTREGAR
-    let campos = "p.id id, p.name product, url_image, price, discount, c.name category";
-    
-    // PARÁMETROS PARA EL WHERE
-    var producto = tagSeach && tagSeach.product && "WHERE p.name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
-    // var catFilter = tagSeach && tagSeach.filter_cat && "category = " + tagSeach.filter_cat +" " || "";  
+  // var where = ("WHERE " + producto + (producto && catFilter && "AND " || "") + catFilter) || "";
+  const orden = tagSeach && tagSeach.order_key && 'ORDER BY ' + tagSeach.order_key + ' ' || 'ORDER BY category ASC '
 
-    // PARÁMETROS DE ORDEN DE PRODUCTOS
-    var orden = tagSeach && tagSeach.order_key && "ORDER BY " + tagSeach.order_key +" " || "ORDER BY category ASC ";
+  const q = 'SELECT ' + campos + ' FROM product p INNER JOIN category c ON p.category = c.id ' + producto + orden
+  // console.log(q)
 
-    // función que realiza la consulta a a la base de datos
-    q = "SELECT "+campos+" FROM product p INNER JOIN category c ON p.category = c.id " +producto + orden;
-    sqlConnection.query(q,(err, rows, fields)=>{
-        if (err){
-            res.send({message:"error a la DB, reconectar por favór"});
-            console.log(err);
-        }
-        if (!rows){
-            console.log("vacío");
-            res.send({message:"vacío"});
-        }
-        res.json(rows);
-    });
-});
-
-// ruta para que al colocar cualquier direccion distinta a "/search" 
-// te redireccione automáticamente a "/search"
-router.get("**", (req,res)=>{
-    res.redirect(301,'/search');
+  sqlConnection.query(q, (err, rows, fields) => {
+    if (err) {
+      res.send({ message: 'error a la DB, reconectar por favór' })
+      console.log(err)
+    }
+    if (!rows) {
+      console.log('vacío')
+      res.send({ message: 'vacío' })
+    }
+    res.json(rows)
+  })
 })
 
-// WHERE campo IN (1,2,3) sql;
-// "("+foo.join()+")"
+router.get('**', (req, res) => {
+  res.redirect(301, '/search')
+})
 
-module.exports = router;
+module.exports = router

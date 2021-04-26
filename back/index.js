@@ -19,6 +19,8 @@ app.use((req, res, next) => {
 
 app.use('/',rutas);
 
-app.listen(config.port, ()=>{
-  console.log("conectado a http://localhost:3600");
+const port = process.env.PORT || config.port;
+app.listen(port, '0.0.0.0', function () {
+  console.log('Listening on Port 3000')
 })
+

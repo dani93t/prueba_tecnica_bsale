@@ -1,6 +1,6 @@
 window.onload = (event) => {
     var busqueda = window.location.search || "";
-    var hostBack = "http://localhost:3600";    
+    var hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
     conexionBack(busqueda,hostBack);
 };
 
@@ -53,10 +53,14 @@ function mostrarProductos(json) {
             productoHTML += `
         <div class="col-6 col-lg-3 my-4">
             <div class="bg-white h-100 shadow-sm">
-                <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
-                <img class="w-100" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
-                <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
-                ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
+                <div class="p-titulo">
+                    <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
+                </div>
+                <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
+                <div class="p-precio">
+                    <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
+                    ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
+                </div>
             </div>
         </div>
         `;});
