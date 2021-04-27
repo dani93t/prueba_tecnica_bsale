@@ -3,6 +3,9 @@
 const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
 // const hostBack = "http://127.0.0.1:3000";    
 
+var url_str = window.location.href;
+var url = new URL(url_str);
+
 
 window.onload = (event) => {
     var busqueda = window.location.search || "";
@@ -98,10 +101,11 @@ function getCategorias(listaCats) {
 // específicamente en el filtrado de categorias1
 function llenarCategorias(cats,listaCats) {
     let catsFilter = "";
+    let catsAttr = url.searchParams.getAll("cats");
     cats.forEach((c)=>{
         catsFilter += `
         <div class="form-check my-2" style="justify-content: left;">
-            <input class="form-check-input ml-sm-2" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}">
+            <input class="form-check-input ml-sm-2" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}" ${catsAttr.includes(c.id.toString()) ? "checked":""} >
             <label class="form-check-label" for="cats${c.id}">
                 ${c.name}
             </label>
