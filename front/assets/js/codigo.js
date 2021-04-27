@@ -1,18 +1,18 @@
+// usar uno de los dos según el entorno, por defecto usar el localhost
+
+// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+const hostBack = "http://127.0.0.1:3000";    
+
+
 window.onload = (event) => {
     var busqueda = window.location.search || "";
-
-    // usar uno de los dos según el entorno, por defecto usar el localhost
-
-    // var hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-    var hostBack = "http://127.0.0.1:3000";    
-    
-    conexionBack(busqueda,hostBack);
+    conexionBack(busqueda);
 };
 
 // función que realiza la conexion al backend para obtener los datos solicitados
 // lo cual lo hace mediante una petición asincrónica
-function conexionBack(params,host) {
-    fetch( host +"/search"+ params, {
+function conexionBack(params) {
+    fetch( hostBack +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -73,4 +73,46 @@ function mostrarProductos(json) {
     });
 }
 
-// document.getElementById("formulario").addEventListener("submit",(event)=>console.log("submiteado"));
+document.getElementById("lista-categoria").addEventListener("click",(e)=>{
+    let listaCats =  document.querySelector("#lista-categoria + .dropdown-menu");
+
+    if (listaCats.innerHTML == false){
+        getCategorias(listaCats);
+    }
+
+},{once:true});
+
+function getCategorias(listaCats) {
+    fetch( hostBack +"/categorias", {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        }
+    }).then(response=>response.json())
+    .then(json=>llenarCategorias(json,listaCats))
+    .catch(
+        err=>console.log(err)
+    );
+}
+
+
+function llenarCategorias(cats,listaCats) {
+    let catsFilter = "";
+    cats.forEach((c)=>{
+        catsFilter += `
+        <div class="form-check my-2" style="justify-content: left;">
+            <input class="form-check-input" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}">
+            <label class="form-check-label" for="cats${c.id}">
+                ${c.name}
+            </label>
+        </div>
+        
+        `;
+    });
+    listaCats.innerHTML = catsFilter;
+}
+
+// document.getElementById("formulario").addEventListener("submit",(event)=>history.pushState(null, "jljl", "index.html"));
+
+
+

@@ -30,7 +30,7 @@ router.get('/search',(req, res)=>{
     
     // PARÁMETROS PARA EL WHERE
     let prodFilter = tagSeach && tagSeach.product && "p.name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
-    let catFilter = tagSeach && tagSeach.cats && "c.id IN (" +  ( typeof tagSeach.cats == 'string' ? tagSeach.cats : tagSeach.cats.join() ) +") " || "";  
+    let catFilter = tagSeach && tagSeach.cats && /^[0-9,]+$/.test(tagSeach.cats) && "c.id IN (" +  ( typeof tagSeach.cats == 'string' ? tagSeach.cats : tagSeach.cats.join() ) +") " || "";  
     let where = filterToWhere(prodFilter, catFilter);
 
     // PARÁMETROS DE ORDENAMIENTO DE PRODUCTOS
@@ -51,6 +51,21 @@ router.get('/search',(req, res)=>{
         res.json(rows);
     });
 });
+
+router.get("/categorias", (req,res)=>{
+    sqlConnection.query("SELECT * FROM category",(err, rows, fields)=>{
+        if (err){
+            res.send({message:"error a la DB, reconectar por favór"});
+            console.log(err);
+        }
+        if (!rows){
+            console.log("vacío");
+            res.send({message:"vacío"});
+        }
+        res.json(rows);
+    });
+})
+
 // ruta para que al colocar cualquier direccion distinta a "/search" 
 // te redireccione automáticamente a "/search"
 router.get("**", (req,res)=>{
