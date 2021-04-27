@@ -63,7 +63,7 @@ function mostrarProductos(json) {
                 <div class="p-titulo">
                     <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
                 </div>
-                <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.webp"}"></img>
+                <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
                 <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
                 ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
             </div>
@@ -101,7 +101,7 @@ function llenarCategorias(cats,listaCats) {
     cats.forEach((c)=>{
         catsFilter += `
         <div class="form-check my-2" style="justify-content: left;">
-            <input class="form-check-input" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}">
+            <input class="form-check-input ml-sm-2" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}">
             <label class="form-check-label" for="cats${c.id}">
                 ${c.name}
             </label>
