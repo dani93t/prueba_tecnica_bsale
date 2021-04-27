@@ -1,7 +1,7 @@
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
-// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-const hostBack = "http://127.0.0.1:3000";    
+const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+// const hostBack = "http://127.0.0.1:3000";    
 
 
 window.onload = (event) => {
@@ -75,13 +75,12 @@ function mostrarProductos(json) {
 
 document.getElementById("lista-categoria").addEventListener("click",(e)=>{
     let listaCats =  document.querySelector("#lista-categoria + .dropdown-menu");
-
     if (listaCats.innerHTML == false){
         getCategorias(listaCats);
     }
-
 },{once:true});
 
+// extrae las categorias desde la base de datos
 function getCategorias(listaCats) {
     fetch( hostBack +"/categorias", {
         method: 'GET',
@@ -95,7 +94,8 @@ function getCategorias(listaCats) {
     );
 }
 
-
+// llena el listado de categorías en el html
+// específicamente en el filtrado de categorias1
 function llenarCategorias(cats,listaCats) {
     let catsFilter = "";
     cats.forEach((c)=>{
@@ -106,7 +106,6 @@ function llenarCategorias(cats,listaCats) {
                 ${c.name}
             </label>
         </div>
-        
         `;
     });
     listaCats.innerHTML = catsFilter;
