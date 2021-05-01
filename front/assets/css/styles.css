@@ -9,6 +9,25 @@
 }
 .p-precio{height: 4em;}
 
+.window{
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+.buy{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    margin-left: auto;
+    background-color: gray;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
 /* @media screen and max-widch 700px {
     
 } */

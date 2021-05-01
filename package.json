@@ -1,9 +1,11 @@
 {
   "name": "bsale",
   "version": "1.0.0",
-  "description": "por rellenar",
-  "main": "index.html",
+  "description": "Prueba técnica que consiste en desplegar una tienda online de productos de un miniarket cuyos productos están agrupados por categoría las cuales son bebidas, bebidas energéticas, cerveza, pisco, ron, snack y vodka.\r Además tiene un buscador que al ingresar alguna palabra clave, aparece el producto solicitado en la página.",
+  "main": "index.js",
   "scripts": {
+    "start-api": "nodemon ./back/index.js",
+    "start-front": "http-server ./front",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,8 +19,10 @@
     "url": "https://github.com/dani93t/prueba_tecnica_bsales/issues"
   },
   "homepage": "https://github.com/dani93t/prueba_tecnica_bsales#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "dependencies": {
-    "back-bsales-tech-test": "file:back",
-    "front-bsales-tech-test": "file:front"
+    "http-server": "^0.12.3"
   }
 }

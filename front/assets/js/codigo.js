@@ -1,28 +1,29 @@
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
-const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-// const hostBack = "http://127.0.0.1:3000";    
+// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+const hostBack = "http://127.0.0.1:3000";    
 
 var url_str = window.location.href;
 var url = new URL(url_str);
 
 
-window.onload = (event) => {
+window.onpopstate = window.onload = (event) => {
     var busqueda = window.location.search || "";
-    conexionBack(busqueda);
+    console.log(busqueda);
+    apiSeach(busqueda);
 };
 
 // función que realiza la conexion al backend para obtener los datos solicitados
 // lo cual lo hace mediante una petición asincrónica
-function conexionBack(params) {
+function apiSeach(params) {
     fetch( hostBack +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-        }
+        },
     }).then(response=>response.json())
     .then(json=>agruparByCategoria(json))
-    .then(json=>mostrarProductos(json)).catch(
+    .then(json=>printProducts(json)).catch(
         err=>console.log(err)
     );
 }
@@ -38,7 +39,7 @@ function agruparByCategoria(json) {
 }
 
 // funcion que se encarga de rellenar los productos en el html
-function mostrarProductos(json) {
+function printProducts(json) {
     let categorias = document.getElementById("productos");
     let categoriasHTML = "";
     // dibuja en el HTML las categorías
@@ -61,14 +62,21 @@ function mostrarProductos(json) {
         let productoHTML = "";
         json[v].forEach(p=>{
             productoHTML += `
-        <div class="col-6 col-lg-3 my-4">
-            <div class="bg-white h-100 shadow-sm">
+        <div class="col-6 col-lg-3 my-md-3 px-0 px-md-3 ">
+            <div class="bg-white h-100 shadow-sm border">
                 <div class="p-titulo">
                     <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
                 </div>
                 <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
-                <p class="my-lg-0 px-4">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
-                ${p.discount && `<p class="my-lg-0 px-4">${p.discount}% de descuento</p>` || ""}
+                <div class="border-top w-75 py-2 ml-auto mr-auto d-flex">
+                    <div>
+                        <p class="my-lg-0">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
+                        ${p.discount && `<p class="my-lg-0">${p.discount}% de descuento</p>` || ""}
+                    </div>
+                    <div class="buy">
+                        <span class="fa fa-shopping-cart fa-2x"></span>
+                    </div>
+                </div>
             </div>
         </div>
         `;});
@@ -85,7 +93,7 @@ document.getElementById("lista-categoria").addEventListener("click",(e)=>{
 
 // extrae las categorias desde la base de datos
 function getCategorias(listaCats) {
-    fetch( hostBack +"/categorias", {
+    fetch( hostBack +"/categories", {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -115,7 +123,32 @@ function llenarCategorias(cats,listaCats) {
     listaCats.innerHTML = catsFilter;
 }
 
-// document.getElementById("formulario").addEventListener("submit",(event)=>history.pushState(null, "jljl", "index.html"));
+document.getElementById("formulario").addEventListener("submit",
+    (event)=>{
+        event.preventDefault();
+        let queryString = createQueryString(event.target);
+        history.pushState(null, "", "index.html"+queryString);
+        apiSeach(queryString);
+    });
 
+function createQueryString(form) {
+    const params = new URLSearchParams();
+    for (const key in form) {
+        if (form[key] && form[key].type){
+            switch (form[key].type) {
+                case "text":
+                    form[key].value && params.append(form[key].name,form[key].value);
+                    break;
+                case "checkbox":
+                    form[key].checked && params.append(form[key].name, form[key].value);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    return "?" + params.toString();
+}
 
 

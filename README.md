@@ -50,3 +50,7 @@ npm start
 ```
 Con todo esto, ya se puede iniciar de manera local el proyecto.
 
+## funcionamiento
+### apiRest
+### front
+en el lado del front o cliente ...

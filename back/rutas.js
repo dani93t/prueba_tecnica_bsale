@@ -52,7 +52,7 @@ router.get('/search',(req, res)=>{
     });
 });
 
-router.get("/categorias", (req,res)=>{
+router.get("/categories", (req,res)=>{
     sqlConnection.query("SELECT * FROM category",(err, rows, fields)=>{
         if (err){
             res.send({message:"error a la DB, reconectar por favór"});
