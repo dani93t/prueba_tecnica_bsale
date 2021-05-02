@@ -28,6 +28,25 @@
     overflow: hidden;
 }
 
-/* @media screen and max-widch 700px {
+
+.precio{
+    font-size: 1em;
+}
+
+
+@media screen and (max-width:576px)  {
+    .precio{
+        font-size: .8em;
+    }
+    .precio p{
+        margin-top: 0;
+    }
+    .fa-2x{
+        font-size: 1.5em;
+    }
+    .buy{
+        height: 35px;
+        width: 35px;
+    }
     
-} */
+}

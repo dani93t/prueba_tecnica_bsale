@@ -30,25 +30,30 @@ router.get('/search',(req, res)=>{
     
     // PARÁMETROS PARA EL WHERE
     let prodFilter = tagSeach && tagSeach.product && "p.name LIKE " + sqlConnection.escape("%"+tagSeach.product+"%")+ " " || "";
-    let catFilter = tagSeach && tagSeach.cats && /^[0-9,]+$/.test(tagSeach.cats) && "c.id IN (" +  ( typeof tagSeach.cats == 'string' ? tagSeach.cats : tagSeach.cats.join() ) +") " || "";  
+    let catFilter = tagSeach && tagSeach.cats && "c.id IN (" + sqlConnection.escape(tagSeach.cats) + ") " || "";  
     let where = filterToWhere(prodFilter, catFilter);
 
     // PARÁMETROS DE ORDENAMIENTO DE PRODUCTOS
-    var orden = tagSeach && tagSeach.order_key && "ORDER BY " + tagSeach.order_key +" " || "ORDER BY category ASC ";
+    var orden = tagSeach && tagSeach.sort && "ORDER BY " + sqlConnection.escapeId(tagSeach.sort) +" " || "ORDER BY id_c ASC ";
 
     // función que realiza la consulta a a la base de datos
     let q = "SELECT "+campos+" FROM product p INNER JOIN category c ON p.category = c.id " + where + orden;
     console.log(q);
     sqlConnection.query(q,(err, rows, fields)=>{
+        // console.log(err.errno);
         if (err){
             res.send({message:"error a la DB, reconectar por favór"});
             console.log(err);
         }
-        if (!rows){
-            console.log("vacío");
-            res.send({message:"vacío"});
+        if (rows.length == 0){
+            res.json({
+                message:"la consulta no retornó ningun dato",
+                code:404
+            })
         }
-        res.json(rows);
+        if (rows.length > 0){
+            res.json(rows);
+        }
     });
 });
 
@@ -73,3 +78,4 @@ router.get("**", (req,res)=>{
 })
 
 module.exports = router;
+// http://127.0.0.1:5500/front/index.html?cats=1%27;--&cats=4&cats=6

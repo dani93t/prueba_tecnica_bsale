@@ -6,27 +6,56 @@ const hostBack = "http://127.0.0.1:3000";
 var url_str = window.location.href;
 var url = new URL(url_str);
 
-
 window.onpopstate = window.onload = (event) => {
     var busqueda = window.location.search || "";
-    console.log(busqueda);
     apiSeach(busqueda);
 };
 
 // función que realiza la conexion al backend para obtener los datos solicitados
 // lo cual lo hace mediante una petición asincrónica
 function apiSeach(params) {
+    console.log("accedido");
     fetch( hostBack +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
-    }).then(response=>response.json())
-    .then(json=>agruparByCategoria(json))
-    .then(json=>printProducts(json)).catch(
-        err=>console.log(err)
+    }).then(
+        response=>response.json()
+    )
+    .then(json=>
+        prosessData(json)
+    )
+    .catch(
+        err=>showError({
+            code:404,
+            message:"no se pudo conectar al servidor",
+            merror: err
+        })
     );
 }
+
+function prosessData(json){
+    console.log("dddd",json);
+    if (json.message){
+        console.log("nnnnn",json)
+        showError(json);
+    }else{
+        let agrupado = agruparByCategoria(json);
+        printProducts(agrupado);
+    }
+}
+
+function showError(err) {
+    let categorias = document.getElementById("productos");
+    categorias.innerHTML = `
+        <div class="alert alert-danger mt-5" role="alert">
+            <p>${err.message}</p>
+            <p>${err.code}</p>
+        </div>
+    `;
+}
+
 
 // funcion que agrupa el json resultante de la base de datos en 
 // categorías independientes
@@ -62,16 +91,16 @@ function printProducts(json) {
         let productoHTML = "";
         json[v].forEach(p=>{
             productoHTML += `
-        <div class="col-6 col-lg-3 my-md-3 px-0 px-md-3 ">
+        <div class="col-6 col-lg-3 my-md-3 px-0 px-md-3">
             <div class="bg-white h-100 shadow-sm border">
                 <div class="p-titulo">
                     <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
                 </div>
                 <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
                 <div class="border-top w-75 py-2 ml-auto mr-auto d-flex">
-                    <div>
-                        <p class="my-lg-0">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span> pesos</p>
-                        ${p.discount && `<p class="my-lg-0">${p.discount}% de descuento</p>` || ""}
+                    <div class="precio">
+                        <p class="my-0 font-weight-bolder">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span></p>
+                        ${p.discount && `<p class="my-0">${p.discount}% desc.</p>` || ""}
                     </div>
                     <div class="buy">
                         <span class="fa fa-shopping-cart fa-2x"></span>
@@ -148,7 +177,7 @@ function createQueryString(form) {
         }
     }
 
-    return "?" + params.toString();
+    return params.toString() && "?" + params.toString() || "";
 }
 
 
