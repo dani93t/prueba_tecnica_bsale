@@ -2,7 +2,6 @@
 
 // const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
 const hostBack = "http://127.0.0.1:3000";    
-
 var url_str = window.location.href;
 var url = new URL(url_str);
 
@@ -14,7 +13,6 @@ window.onpopstate = window.onload = (event) => {
 // función que realiza la conexion al backend para obtener los datos solicitados
 // lo cual lo hace mediante una petición asincrónica
 function apiSeach(params) {
-    console.log("accedido");
     fetch( hostBack +"/search"+ params, {
         method: 'GET',
         headers: {
@@ -28,17 +26,16 @@ function apiSeach(params) {
     )
     .catch(
         err=>showError({
-            code:404,
-            message:"no se pudo conectar al servidor",
-            merror: err
-        })
+            message: "no se ha podido conectar al servidor",
+            code: 404,
+            dcode: 0,
+            detail: err
+            })
     );
 }
 
 function prosessData(json){
-    console.log("dddd",json);
     if (json.message){
-        console.log("nnnnn",json)
         showError(json);
     }else{
         let agrupado = agruparByCategoria(json);
@@ -46,12 +43,15 @@ function prosessData(json){
     }
 }
 
+
+// muestra en pantalla cualquier tipo de error generado en la aplicación
 function showError(err) {
     let categorias = document.getElementById("productos");
     categorias.innerHTML = `
         <div class="alert alert-danger mt-5" role="alert">
-            <p>${err.message}</p>
-            <p>${err.code}</p>
+            <p>Error ${err.code}. ${err.message}</p>
+            <p class="my-0 font-weight-bolder">Detalles:</p>
+            <p class="mt-0">${err.dcode}. ${err.detail}</p>
         </div>
     `;
 }
@@ -113,6 +113,12 @@ function printProducts(json) {
     });
 }
 
+
+/////////////////////////////////////////////////
+// EXTRACCIÓN DE CATEGORÍAS
+////////////////////////////////////////////////
+
+
 document.getElementById("lista-categoria").addEventListener("click",(e)=>{
     let listaCats =  document.querySelector("#lista-categoria + .dropdown-menu");
     if (listaCats.innerHTML == false){
@@ -128,7 +134,7 @@ function getCategorias(listaCats) {
             'Content-type': 'application/json; charset=UTF-8',
         }
     }).then(response=>response.json())
-    .then(json=>llenarCategorias(json,listaCats))
+    .then(json=>llenarCategorias(json, listaCats))
     .catch(
         err=>console.log(err)
     );
@@ -151,6 +157,11 @@ function llenarCategorias(cats,listaCats) {
     });
     listaCats.innerHTML = catsFilter;
 }
+
+
+/////////////////////////////////////////////////
+// ENVÍO DE FORMULARIO
+////////////////////////////////////////////////
 
 document.getElementById("formulario").addEventListener("submit",
     (event)=>{
@@ -176,7 +187,6 @@ function createQueryString(form) {
             }
         }
     }
-
     return params.toString() && "?" + params.toString() || "";
 }
 

@@ -34,24 +34,32 @@ router.get('/search',(req, res)=>{
     let where = filterToWhere(prodFilter, catFilter);
 
     // PARÁMETROS DE ORDENAMIENTO DE PRODUCTOS
-    var orden = tagSeach && tagSeach.sort && "ORDER BY " + sqlConnection.escapeId(tagSeach.sort) +" " || "ORDER BY id_c ASC ";
+    var orden = tagSeach && tagSeach.sort && "ORDER BY " + sqlConnection.escape(tagSeach.sort) +" " || "ORDER BY id_c ASC ";
 
     // función que realiza la consulta a a la base de datos
     let q = "SELECT "+campos+" FROM product p INNER JOIN category c ON p.category = c.id " + where + orden;
     console.log(q);
     sqlConnection.query(q,(err, rows, fields)=>{
-        // console.log(err.errno);
         if (err){
-            res.send({message:"error a la DB, reconectar por favór"});
-            console.log(err);
+            res.send({
+                message:"error a la DB, reconectar por favór",
+                code: 501,
+                dcode: err.errno,
+                detail: err.code
+                });
         }
-        if (rows.length == 0){
+
+        if (rows && rows.length == 0){
+            console.log("dentro del vacío");
             res.json({
-                message:"la consulta no retornó ningun dato",
-                code:404
-            })
+                message: "ningun resultado devuelto",
+                code: 404,
+                dcode: 0,
+                detail: ""
+                })
         }
-        if (rows.length > 0){
+        
+        if (rows && rows.length > 0){
             res.json(rows);
         }
     });
