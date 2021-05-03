@@ -79,12 +79,12 @@ curl -X GET 127.0.0.1:3000/categories
 ```json
 [
     {
-        category:"bebida energetica",
-        id:1,
+        "category":"bebida energetica",
+        "id":1,
     },
     {
-        category:"bebida",
-        id:2,
+        "category":"bebida",
+        "id":2,
     },
     {
         ...

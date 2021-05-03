@@ -56,7 +56,9 @@ Como fue explicado al principio, este repositorio está dividido en dos subproye
 
 El detalle de estos proyectos se describirá a continuación.
 
-### apiRest
+### API Rest
+
+Página desplegada de la API https://bsales-tech-demo-back-daniel-t.herokuapp.com
 
 Api de la tienda online de la prueba técnica de bsale permite acceder a los contenidos de la tienda, específicamente los productos y las categorías de ellas, cuyos datos son retornados en formato json para la integración simple en losproyectos.
 
@@ -67,6 +69,9 @@ La API usa mysql como base de datos para extraer el contenido.
 Para más información puede entrar [`aquí`](./back#readme)
 
 ### front
+
+Página desplegada del front https://bsale-tech-demo-front-daniel-t.herokuapp.com/
+
 front-end de la tienda online de la prueba técnica de bsale en donde se encuentra la parte visual de la aplicación web, en otras palabras, la página web de la tienda.
 
 Esta aplicación, permite visualizar los productos disponibles en la tienda, así también los filtros para buscar un producto en específico ingresando una palabra clave o filtrando la categoría. La página también es responsiva, es decir, que la web está preparada para ajustarse a un dispositivo movil.
