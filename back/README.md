@@ -2,22 +2,19 @@
 
 Api de la tienda online de la prueba técnica de bsale permite acceder a los contenidos de la tienda, específicamente los productos y las categorías de ellas, cuyos datos son retornados en formato json para la integración simple en losproyectos.
 
-Esta api incluye dos rutas, una para acceder a los productos y la otra para las categorías, donde el de los productos es compatible con los filtros de palabras claves, categorías y ordenamiento de datos. 
+Esta compuesto por dos rutas, una para acceder a los productos y la otra para las categorías, donde el de los productos es compatible con los filtros de palabras claves, categorías y ordenamiento de datos.
+
+La API usa mysql como base de datos para extraer el contenido.
 
 ## Instalación y ejecución del servidor
 
-primero, ir a la carpeta back:
-
-```
-cd ./back
-```
 
 instalar los paquetes.
 ```
 npm install
 ```
 
-finalemte, iniciar servidor con el siguente comando
+Iniciar servidor con el siguente comando
 
 ```
 npm start
@@ -34,7 +31,7 @@ Esta ruta extrae los productos incluidos en la tienda la cual es compatible con 
 
 1. **product:** Este parámetro filtra el nombre del producto mediante una secuencia de caracteres de tamaño 1 o mayor.
 2. **cats:** Permite filtrar los productos según la o las categoría/s especificadas por el usuario.
-3. **sort:** Ordena los resultados obtenidos por la ruta anterior según el atributo dado por el usuario que puede ser 'price','product','discont' o 'category'.
+3. **sort:** Ordena los resultados obtenidos por la ruta anterior según el atributo dado por el usuario que puede ser 'product','category','price' ó 'discount'. Al ingresar algo distinto de los mencionados retorna con el ordenamiento por defecto que trae la api, es decir, por la id del producto. 
 4. **sin filtros:** es posible solicitar la información sin utilizar filtros, pero retornará todos los productos de la tienda y estará ordenada por categoría.
 
 **ejemplo de solicitud**

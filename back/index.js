@@ -6,6 +6,7 @@ const rutas = require('./rutas');
 var express = require('express');
 var app = express();
 
+// configura el servidor back para iniciar el servidor de la API
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 

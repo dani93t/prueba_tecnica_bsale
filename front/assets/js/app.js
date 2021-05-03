@@ -1,7 +1,7 @@
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
-// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-const hostBack = "http://127.0.0.1:3000";    
+const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+// const hostBack = "http://127.0.0.1:3000";    
 var url_str = window.location.href;
 var url = new URL(url_str);
 
@@ -34,6 +34,8 @@ function apiSeach(params) {
     );
 }
 
+// procesa el resultado y decide si enviarlo como error o
+// llenar la vista
 function prosessData(json){
     if (json.message){
         showError(json);
@@ -163,6 +165,8 @@ function llenarCategorias(cats,listaCats) {
 // ENVÍO DE FORMULARIO
 ////////////////////////////////////////////////
 
+// evento del submit para realizar una nueva llamada a la API
+// y actualizar la url sin recargar la página
 document.getElementById("formulario").addEventListener("submit",
     (event)=>{
         event.preventDefault();
@@ -171,6 +175,7 @@ document.getElementById("formulario").addEventListener("submit",
         apiSeach(queryString);
     });
 
+// genera la query string para actualizar la url
 function createQueryString(form) {
     const params = new URLSearchParams();
     for (const key in form) {
