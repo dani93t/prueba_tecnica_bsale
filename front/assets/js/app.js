@@ -1,9 +1,9 @@
+import "./prueba.js";
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
-const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-// const hostBack = "http://127.0.0.1:3000";    
+// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
+const hostBack = "http://127.0.0.1:3000";
 var url_str = window.location.href;
-var url = new URL(url_str);
 
 window.onpopstate = window.onload = (event) => {
     var busqueda = window.location.search || "";
@@ -40,11 +40,10 @@ function prosessData(json){
     if (json.message){
         showError(json);
     }else{
-        let agrupado = agruparByCategoria(json);
+        let agrupado = groupCats(json);
         printProducts(agrupado);
     }
 }
-
 
 // muestra en pantalla cualquier tipo de error generado en la aplicación
 function showError(err) {
@@ -61,7 +60,7 @@ function showError(err) {
 
 // funcion que agrupa el json resultante de la base de datos en 
 // categorías independientes
-function agruparByCategoria(json) {
+function groupCats(json) {
     let jsonAgrupado = {};
     json.forEach((v)=> { 
         if(!jsonAgrupado[v.category]) jsonAgrupado[v.category]=[];
@@ -124,19 +123,19 @@ function printProducts(json) {
 document.getElementById("lista-categoria").addEventListener("click",(e)=>{
     let listaCats =  document.querySelector("#lista-categoria + .dropdown-menu");
     if (listaCats.innerHTML == false){
-        getCategorias(listaCats);
+        getCats(listaCats);
     }
 },{once:true});
 
 // extrae las categorias desde la base de datos
-function getCategorias(listaCats) {
+function getCats(listaCats) {
     fetch( hostBack +"/categories", {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         }
     }).then(response=>response.json())
-    .then(json=>llenarCategorias(json, listaCats))
+    .then(json=>printCats(json, listaCats))
     .catch(
         err=>console.log(err)
     );
@@ -144,7 +143,8 @@ function getCategorias(listaCats) {
 
 // llena el listado de categorías en el html
 // específicamente en el filtrado de categorias1
-function llenarCategorias(cats,listaCats) {
+function printCats(cats,listaCats) {
+    let url = new URL(url_str);
     let catsFilter = "";
     let catsAttr = url.searchParams.getAll("cats");
     cats.forEach((c)=>{
@@ -196,3 +196,17 @@ function createQueryString(form) {
 }
 
 
+
+var interval;
+var form = document.querySelector("#formulario");
+form.addEventListener("input",(e)=>{
+    if (interval){
+        clearTimeout(interval);
+    }
+    interval = setTimeout(()=>{
+        let algo = createQueryString(form);
+        history.pushState(null, "", "index.html"+algo);
+        apiSeach(algo);
+    },
+        500);
+});
