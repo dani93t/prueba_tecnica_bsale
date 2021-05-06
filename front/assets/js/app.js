@@ -1,23 +1,21 @@
-import "./prueba.js";
+import {config} from "./configuration.js";
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
-// const hostBack = "https://bsales-tech-demo-back-daniel-t.herokuapp.com";    
-const hostBack = "http://127.0.0.1:3000";
-var url_str = window.location.href;
+
 
 window.onpopstate = window.onload = (event) => {
     var busqueda = window.location.search || "";
-    apiSeach(busqueda);
+    getSearch(busqueda);
 };
 
 // función que realiza la conexion al backend para obtener los datos solicitados
 // lo cual lo hace mediante una petición asincrónica
-function apiSeach(params) {
-    fetch( hostBack +"/search"+ params, {
+function getSearch(params) {
+    fetch( config.IPapi +"/search"+ params, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
-        },
+        }
     }).then(
         response=>response.json()
     )
@@ -57,7 +55,6 @@ function showError(err) {
     `;
 }
 
-
 // funcion que agrupa el json resultante de la base de datos en 
 // categorías independientes
 function groupCats(json) {
@@ -92,23 +89,23 @@ function printProducts(json) {
         let productoHTML = "";
         json[v].forEach(p=>{
             productoHTML += `
-        <div class="col-6 col-lg-3 my-md-3 px-0 px-md-3">
-            <div class="bg-white h-100 shadow-sm border">
-                <div class="p-titulo">
-                    <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
-                </div>
-                <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
-                <div class="border-top w-75 py-2 ml-auto mr-auto d-flex">
-                    <div class="precio">
-                        <p class="my-0 font-weight-bolder">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span></p>
-                        ${p.discount && `<p class="my-0">${p.discount}% desc.</p>` || ""}
+                <div class="col-6 col-lg-4 col-xl-3 my-md-3 px-0 px-md-3">
+                    <div class="bg-white h-100 shadow-sm border">
+                        <div class="p-titulo">
+                            <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
+                        </div>
+                        <img loading="lazy" class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
+                        <div class="border-top w-75 py-2 ml-auto mr-auto d-flex">
+                            <div class="precio">
+                                <p class="my-0 font-weight-bolder">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span></p>
+                                ${p.discount && `<p class="my-0">${p.discount}% desc.</p>` || ""}
+                            </div>
+                            <div class="buy">
+                                <span class="fa fa-shopping-cart fa-2x"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="buy">
-                        <span class="fa fa-shopping-cart fa-2x"></span>
-                    </div>
                 </div>
-            </div>
-        </div>
         `;});
         productos.innerHTML = productoHTML;
     });
@@ -129,7 +126,7 @@ document.getElementById("lista-categoria").addEventListener("click",(e)=>{
 
 // extrae las categorias desde la base de datos
 function getCats(listaCats) {
-    fetch( hostBack +"/categories", {
+    fetch( config.IPapi +"/categories", {
         method: 'GET',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -144,6 +141,7 @@ function getCats(listaCats) {
 // llena el listado de categorías en el html
 // específicamente en el filtrado de categorias1
 function printCats(cats,listaCats) {
+    var url_str = window.location.href;
     let url = new URL(url_str);
     let catsFilter = "";
     let catsAttr = url.searchParams.getAll("cats");
@@ -167,12 +165,15 @@ function printCats(cats,listaCats) {
 
 // evento del submit para realizar una nueva llamada a la API
 // y actualizar la url sin recargar la página
-document.getElementById("formulario").addEventListener("submit",
+
+var form = document.querySelector("#formulario");
+
+form.addEventListener("submit",
     (event)=>{
         event.preventDefault();
         let queryString = createQueryString(event.target);
         history.pushState(null, "", "index.html"+queryString);
-        apiSeach(queryString);
+        getSearch(queryString);
     });
 
 // genera la query string para actualizar la url
@@ -184,7 +185,13 @@ function createQueryString(form) {
                 case "text":
                     form[key].value && params.append(form[key].name,form[key].value);
                     break;
+                case "search":
+                    form[key].value && params.append(form[key].name,form[key].value);
+                    break;
                 case "checkbox":
+                    form[key].checked && params.append(form[key].name, form[key].value);
+                    break;
+                case "radio":
                     form[key].checked && params.append(form[key].name, form[key].value);
                     break;
                 default:
@@ -195,10 +202,8 @@ function createQueryString(form) {
     return params.toString() && "?" + params.toString() || "";
 }
 
-
-
 var interval;
-var form = document.querySelector("#formulario");
+
 form.addEventListener("input",(e)=>{
     if (interval){
         clearTimeout(interval);
@@ -206,7 +211,7 @@ form.addEventListener("input",(e)=>{
     interval = setTimeout(()=>{
         let algo = createQueryString(form);
         history.pushState(null, "", "index.html"+algo);
-        apiSeach(algo);
+        getSearch(algo);
     },
         500);
 });

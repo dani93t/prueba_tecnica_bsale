@@ -3,22 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tienda online</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white  w-100 shadow">
-      <a class="navbar-brand" href="index.html">Tienda bsales</a>
+      <a class="navbar-brand" href="index.html">Tienda online</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="form-inline my-2 my-lg-0 w-100" id="formulario" action="index.html" method="GET">
           <ul class="navbar-nav w-100">
-            <li class="nav-item">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" id="lista-categoria" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                categorias
+              </a>
+              <div class="dropdown-menu" aria-labelledby="lista-categoria">
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" id="lista-orden" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                ordenar por...
+              </a>
+              <div class="dropdown-menu" aria-labelledby="lista-orden">
+                <div class="form-check my-2" style="justify-content: left;">
+                  <input class="form-check-input ml-sm-2" type="radio" id="sort-cat" name="sort" value="category">
+                  <label class="form-check-label" for="sort-cat">
+                    categoria
+                  </label>
+                </div>
+                <div class="form-check my-2" style="justify-content: left;">
+                  <input class="form-check-input ml-sm-2" type="radio" id="sort-prod" name="sort" value="product">
+                  <label class="form-check-label" for="sort-prod">
+                    producto
+                  </label>
+                </div>
+                <div class="form-check my-2" style="justify-content: left;">
+                  <input class="form-check-input ml-sm-2" type="radio" id="sort-pric" name="sort" value="price">
+                  <label class="form-check-label" for="sort-pric">
+                    precio
+                  </label>
+                </div>
+                <div class="form-check my-2" style="justify-content: left;">
+                  <input class="form-check-input ml-sm-2" type="radio" id="sort-disc" name="sort" value="discount">
+                  <label class="form-check-label" for="sort-disc">
+                    descuento
+                  </label>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item ml-lg-auto mr-4 my-2 my-lg-0">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <p class="input-group-text" id="basic-addon1"><span class="fa fa-search"></span></p>
@@ -26,18 +64,16 @@
                 <input type="text" class="form-control" placeholder="ej: mani salado" aria-describedby="button-search" name="product">
               </div>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active" href="#" id="lista-categoria" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                filtar por categorias
-              </a>
-              <div class="dropdown-menu" aria-labelledby="lista-categoria">
-              </div>
+
+            <li class="nav-item my-2 my-lg-0">
+              <button class="btn btn-outline-success " type="submit">buscar producto</button>
             </li>
-              <button class="btn btn-outline-success ml-lg-auto" type="submit">buscar producto</button>
+
           </ul>
         </form>
       </div>
     </nav>
+    <!-- PARTE VISUAL DE LA APLICACIÓN -->
     <div class="window">
       <div class="container mt-3 pt-3" id="productos">
         <div class="alert alert-warning mt-5 text-center" role="alert">

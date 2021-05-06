@@ -30,10 +30,9 @@ function buildQuery(tagSeach){
     let catFilter = tagSeach && tagSeach.cats && "c.id IN (" + sqlConnection.escape(tagSeach.cats) + ") " || "";  
     let where = filterToWhere(prodFilter, catFilter);
 
-    
     // PARÁMETROS DE ORDENAMIENTO DE PRODUCTOS
     var orden = tagSeach && tagSeach.sort && idValid.includes(tagSeach.sort) && 'ORDER BY ' + sqlConnection.escapeId(tagSeach.sort,false) + ' ' || "ORDER BY id_c ASC ";
-    return "SELECT "+campos+" FROM product p INNER JOIN category c ON p.category = c.id " + where + orden;
+    return "SELECT "+ campos +" FROM product p INNER JOIN category c ON p.category = c.id " + where + orden;
 }
 
 // funcion que hace la consulta a mysql
@@ -72,6 +71,11 @@ module.exports = {
 
     categorias: function(req, res){
         q = "SELECT * FROM category";
+        query(q,req,res);
+    },
+
+    productos: function(req, res){
+        q = "SELECT name FROM product WHERE name LIKE '%%'";
         query(q,req,res);
     }
 }

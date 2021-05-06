@@ -8,6 +8,7 @@ router.get('/search',api.busqueda);
 
 router.get("/categories", api.categorias);
 
+router.get("/products", api.productos);
 // ruta para que al colocar cualquier direccion distinta a "/search" 
 // te redireccione automáticamente a "/search"
 router.get("**", (req,res)=>{
