@@ -1,8 +1,8 @@
 'use strict'
 var mysql = require('mysql');
-var credenciales = require('./config/database');
+var confSQL = require('./config/database');
 
-var connection = mysql.createConnection(credenciales);
+var connection = mysql.createConnection(confSQL);
 
 connection.connect((err)=>{
     if (err){

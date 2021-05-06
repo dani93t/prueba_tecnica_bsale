@@ -1,11 +1,15 @@
 # prueba técnica bsales
 
 ## descripcion
-La prueba técnica de bsale, consiste en desplegar un simulador de una tienda online que vende productos comestibles entre ellos snack, bebidas, y licores entre otros. Esta se conecta a través de una API desarrollada específicamente para que funcione en la web y en ella están almacenada la información de los productos existentes.
+La prueba técnica de bsale, consiste en desplegar un simulador de una tienda online que vende productos comestibles entre ellos snack, bebidas, y licores entre otros. Esta tienda Online, usa una API REST para gestionar el contenido de la página evitando entre otras cosas la recarga de página.
 
-La web, que es la vista, tiene un campo de búsqueda para que el usuario busque mediante palabras clave un producto específico o puedes filtrar la categoría usando el boton desplegable en donde una vez hecho la consulta retorna los productos deseados. La web, tambien es responsiva para aumentar la compatibilidad de la aplicación a los móbiles. 
+Como todo API REST, está compuesto por dos partes, Servidor y Cliente, en donde el Cliente, es decir, la aplicación web y vista, se encuentra los componentes visuales para buscar y encontrar el producto deseado por la persona, y el Servidor se encuentra toda la lógica de negocio para buscar y entregar asincrónicamente mediante JSON el contenido deseado por el usuario es decir el listado de producto.
 
-La tienda se encuentra hospedada en https://bsale-tech-demo-front-daniel-t.herokuapp.com/ y si desa acceder a la API, puede acceder a https://bsales-tech-demo-back-daniel-t.herokuapp.com
+El lado del cliente se encuentra la interfaz visual de la tienda online en donde en la parte superior se encuentra los campos de búsqueda y en la parte inferior los productos. Esta web es responsiva e implementa una búsqueda en tiempo real al momento de ingresar algún filtro en la aplicación web.
+
+El lado del servidor se encuentra la API en donde se gestiona todo el contenido web, en este caso los productos con sus respectivas categorías, las cuales están resumidas en 3 rutas, uno para los productos en general, otro para las categorías, y otro que retorna un pequeño listado de productos que está pensando en un autocompletado de búsqueda (actualmente no implementado en cliente).
+
+La demo de esta prueba técnica, se encuentra desplegada en heroku en donde puedes acceder al [Cliente](https://bsale-tech-demo-front-daniel-t.herokuapp.com/) o bien a la [API](https://bsales-tech-demo-back-daniel-t.herokuapp.com) 
 
 ## uso
 Puede probar el proyecto desde este repositorio clonandolo o descargando el proyecto. 
@@ -56,26 +60,24 @@ Como fue explicado al principio, este repositorio está dividido en dos subproye
 
 El detalle de estos proyectos se describirá a continuación.
 
-### API Rest
+### API
 
-Página desplegada de la API https://bsales-tech-demo-back-daniel-t.herokuapp.com
+Api de la tienda online de la prueba técnica de bsale que permite acceder a los contenidos de la tienda, específicamente los productos y las categorías de ellas, cuyos datos son retornados en formato json para su facil integración en proyectos que lo requiera.
 
-Api de la tienda online de la prueba técnica de bsale permite acceder a los contenidos de la tienda, específicamente los productos y las categorías de ellas, cuyos datos son retornados en formato json para la integración simple en losproyectos.
+Esta API, está compuesto por tres rutas, uno para buscar un producto en específico mediante filtros, otro para extraer las categorías existentes de la tienda y otra para extraer un listado pequeño de productos usado para autocompletado de productos sugeridos.
 
-Esta compuesto por dos rutas, una para acceder a los productos y la otra para las categorías, donde el de los productos es compatible con los filtros de palabras claves, categorías y ordenamiento de datos.
+La demo de esta API se encuentra hospedada en [heroku](https://www.heroku.com/home) haciendo clik [aquí](https://bsales-tech-demo-back-daniel-t.herokuapp.com)
 
-La API usa mysql como base de datos para extraer el contenido.
+Para más información entra [`aquí`](./back#readme)
 
-Para más información puede entrar [`aquí`](./back#readme)
+### cliente
 
-### front
+Cliente de la tienda online de la prueba técnica de bsale en donde se encuentra la aplicación web con todos sus componentes visuales tales como los campos de filtro, y el área visual donde se encuentra los productos.
 
-Página desplegada del front https://bsale-tech-demo-front-daniel-t.herokuapp.com/
+Esta aplicación, tiene el fin de mostrar productos disponibles en la tienda, e interactuar con el usuario para filtrar el o los productos para dar mayor facilidad a la hora de buscar un producto en específico. Como característica de la aplicación web, es responsiva para dispositivos móviles, no se recarga al modificar los filtros y posee una búsqueda en tiempo real (live search) en donde al modificar un campo en los filtros, se actualiza de manera automática.
 
-front-end de la tienda online de la prueba técnica de bsale en donde se encuentra la parte visual de la aplicación web, en otras palabras, la página web de la tienda.
+Esta tienda online funciona mediante API REST que fue desarrollada de manera independientemente para que funcione en esta aplicación, en donde al interactuar con los filtros disponible, realiza peticiones ajax (GET) para obtener y actualizar la vista mediante datos JSON sin recargar la página, y que a su vez cambia la query string de la url para almacenar el estado de la consulta para el usuario, y que, para la facilidad del manejo del cliente y la API, comparten la misma query string.
 
-Esta aplicación, permite visualizar los productos disponibles en la tienda, así también los filtros para buscar un producto en específico ingresando una palabra clave o filtrando la categoría. La página también es responsiva, es decir, que la web está preparada para ajustarse a un dispositivo movil.
-
-Esta tienda online se conecta a una API que fue desarrollada de manera independiente, y que en ella almacena los productos. Al hacer clic en el campo de búsqueda, hace una llamada al servidor para extraer el contenido y actualizar el estado sin actualizar la página cambiando también la query string de la url para la cual, y para la facilidad del manejo entre la vista y la API, comparten la misma query string.
+La demo del cliente se encuentra hospedada en [heroku](https://www.heroku.com/home) haciendo clik [aquí](https://bsale-tech-demo-front-daniel-t.herokuapp.com/)
 
 Para más información puede entrar [`aquí`](./front#readme)

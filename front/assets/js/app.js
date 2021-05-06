@@ -1,6 +1,7 @@
 import {config} from "./configuration.js";
 // usar uno de los dos según el entorno, por defecto usar el localhost
 
+var articulos = [];
 
 
 window.onpopstate = window.onload = (event) => {
@@ -27,7 +28,8 @@ function getSearch(params) {
             message: "no se ha podido conectar al servidor",
             code: 404,
             dcode: 0,
-            detail: err
+            detail: err,
+            etype: "D"
             })
     );
 }
@@ -38,16 +40,21 @@ function prosessData(json){
     if (json.message){
         showError(json);
     }else{
+        articulos = json;
         let agrupado = groupCats(json);
         printProducts(agrupado);
     }
 }
 
+const eTypeClass = {
+    "W": "alert-warning",
+    "D": "alert-danger"
+}
 // muestra en pantalla cualquier tipo de error generado en la aplicación
 function showError(err) {
     let categorias = document.getElementById("productos");
     categorias.innerHTML = `
-        <div class="alert alert-danger mt-5" role="alert">
+        <div class="alert ${eTypeClass[err.etype]} mt-5" role="alert">
             <p>Error ${err.code}. ${err.message}</p>
             <p class="my-0 font-weight-bolder">Detalles:</p>
             <p class="mt-0">${err.dcode}. ${err.detail}</p>
@@ -167,6 +174,7 @@ function printCats(cats,listaCats) {
 // y actualizar la url sin recargar la página
 
 var form = document.querySelector("#formulario");
+var interval;
 
 form.addEventListener("submit",
     (event)=>{
@@ -175,6 +183,18 @@ form.addEventListener("submit",
         history.pushState(null, "", "index.html"+queryString);
         getSearch(queryString);
     });
+
+form.addEventListener("input",(e)=>{
+    if (interval){
+        clearTimeout(interval);
+    }
+    interval = setTimeout(()=>{
+        let algo = createQueryString(form);
+        history.pushState(null, "", "index.html"+algo);
+        getSearch(algo);
+    },
+        500);
+});
 
 // genera la query string para actualizar la url
 function createQueryString(form) {
@@ -201,17 +221,3 @@ function createQueryString(form) {
     }
     return params.toString() && "?" + params.toString() || "";
 }
-
-var interval;
-
-form.addEventListener("input",(e)=>{
-    if (interval){
-        clearTimeout(interval);
-    }
-    interval = setTimeout(()=>{
-        let algo = createQueryString(form);
-        history.pushState(null, "", "index.html"+algo);
-        getSearch(algo);
-    },
-        500);
-});
