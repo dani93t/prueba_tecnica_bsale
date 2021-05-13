@@ -1,7 +1,8 @@
 module.exports = {
-    host     : 'mdb-test.c6vunyturrl6.us-west-1.rds.amazonaws.com',
-    user     : 'bsale_test',
-    password : 'bsale_test',
+    host     : '127.0.0.1',
+    port     : 3306,
+    user     : 'root',
+    password : '',
     database : 'bsale_test',
     multipleStatements : false
 }

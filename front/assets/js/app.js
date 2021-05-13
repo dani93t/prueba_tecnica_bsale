@@ -101,7 +101,7 @@ function printProducts(json) {
                         <div class="p-titulo">
                             <p class="text-uppercase my-lg-0 px-4 text-center font-weight-bold">${p.product}</p>
                         </div>
-                        <img loading="lazy" class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
+                        <img class="w-100 p-image" src="${p.url_image || "./assets/img/carro_compra.png"}"></img>
                         <div class="border-top w-75 py-2 ml-auto mr-auto d-flex">
                             <div class="precio">
                                 <p class="my-0 font-weight-bolder">${p.discount ? `<span class="text-muted tached">$${p.price}</span>`: ""} <span class="text-body">$${Math.floor(p.price*((100-p.discount)/100))}</span></p>
