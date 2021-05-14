@@ -34,6 +34,28 @@
 }
 
 
+/* .sidebar-submenu li{
+    padding: 0!important;
+} */
+
+
+.sidebar-submenu li:hover{
+    background-color: rgba(255, 255, 255, 0.226);
+}
+
+
+
+.sidebar-submenu input[type="checkbox"], .sidebar-submenu input[type="radio"]{
+    display: none;
+}
+
+
+.sidebar-submenu input:checked + label{
+    background-color: rgb(0, 102, 255);
+}
+
+
+
 @media screen and (max-width:576px)  {
     .precio{
         font-size: .8em;
