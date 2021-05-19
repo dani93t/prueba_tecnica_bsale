@@ -90,6 +90,7 @@ function printProducts(json) {
     )
     categorias.innerHTML = categoriasHTML;
 
+
     // dibuja en el HTML los productos
     Object.keys(json).forEach(v=>{
         let productos = document.querySelector("#"+v.replace(" ","-")+" .row");
@@ -124,8 +125,9 @@ function printProducts(json) {
 ////////////////////////////////////////////////
 
 
+    // document.querySelector("#lista-categoria .sidebar-submenu")
 document.getElementById("lista-categoria").addEventListener("click",(e)=>{
-    let listaCats =  document.querySelector("#lista-categoria + .dropdown-menu");
+    let listaCats =  document.querySelector("#lista-categoria .sidebar-submenu");
     if (listaCats.innerHTML == false){
         getCats(listaCats);
     }
@@ -150,18 +152,17 @@ function getCats(listaCats) {
 function printCats(cats,listaCats) {
     var url_str = window.location.href;
     let url = new URL(url_str);
-    let catsFilter = "";
+    let catsFilter = '<ul class="p-0">';
     let catsAttr = url.searchParams.getAll("cats");
     cats.forEach((c)=>{
         catsFilter += `
-        <div class="form-check my-2" style="justify-content: left;">
-            <input class="form-check-input ml-sm-2" id="cats${c.id}" type="checkbox" name="cats" value="${c.id}" ${catsAttr.includes(c.id.toString()) ? "checked":""} >
-            <label class="form-check-label" for="cats${c.id}">
-                ${c.name}
-            </label>
-        </div>
+        <li class="pl-0">
+            <input class="d-none" type="checkbox" id="c${c.id}" name="cats" value="${c.id}" ${catsAttr.includes(c.id.toString()) ? "checked":""}>
+            <label class="w-100 pl-4 py-2 m-0" for="c${c.id}">${c.name}</label>
+        </li>
         `;
     });
+    catsFilter += "</ul>"
     listaCats.innerHTML = catsFilter;
 }
 

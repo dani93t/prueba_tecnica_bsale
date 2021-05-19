@@ -17,7 +17,9 @@
 </head>
 <body class="bg-light">
   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white  w-100 shadow" style="z-index: 1;">
-    <a class="navbar-brand h1" href="index.html">Tienda online</a>
+    <a class="navbar-brand " href="index.html">
+      <h1 class="h4 m-0">tienda online</h1>
+    </a>
     <button class="navbar-toggler d-block ml-auto" type="button" id="toggle-sidebar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -47,46 +49,16 @@
           </div>
           <!-- sidebar-menu  -->
           <div class="sidebar-item sidebar-menu">
-            <ul id="lista-categoria">
+            <ul>
               <li class="header-menu">
                 <span>Opciones</span>
               </li>
-              <li class="sidebar-dropdown">
+              <li class="sidebar-dropdown" id="lista-categoria">
                 <a href="#">
                   <i class="far fa-check-square"></i>
                   <span class="menu-text">Categorias</span>
                 </a>
                 <div class="sidebar-submenu">
-                  <ul class="p-0">
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="cbebidas" name="cats" value="1">
-                      <label class="w-100 pl-4 py-2 m-0" for="cbebidas">bebidas</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="cbebida-energetica" name="cats" value="2">
-                      <label class="w-100 pl-4 py-2 m-0" for="cbebida-energetica">bebida energetica</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="" name="cats" value="3">
-                      <label class="w-100 pl-4 py-2 m-0" for="">bebidas</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="" name="cats" value="4">
-                      <label class="w-100 pl-4 py-2 m-0" for="">bebidas</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="" name="cats" value="5">
-                      <label class="w-100 pl-4 py-2 m-0" for="">bebidas</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none"type="checkbox" id="csnaks" name="cats" value="6">
-                      <label class="w-100 pl-4 py-2 m-0" for="csnaks">snaks</label>
-                    </li>
-                    <li class="pl-0">
-                      <input class="d-none" type="checkbox" id="cvodka" name="cats" value="7">
-                      <label class="w-100 pl-4 py-2 m-0" for="cvodka">vodka</label>
-                    </li>
-                  </ul>
                 </div>
               </li>
               <li class="sidebar-dropdown">
@@ -97,19 +69,19 @@
                 <div class="sidebar-submenu">
                   <ul class="p-0">
                     <li class="pl-0">
-                      <input class="d-none" type="radio" id="sproducto" name="categoriaSort" value="product">
+                      <input class="d-none" type="radio" id="sproducto" name="sort" value="product">
                       <label class="w-100 pl-4 py-2 m-0" for="sproducto">Producto</label>
                     </li>
                     <li class="pl-0">
-                      <input class="d-none" type="radio" id="scategoria" name="categoriaSort" value="category">
+                      <input class="d-none" type="radio" id="scategoria" name="sort" value="category">
                       <label class="w-100 pl-4 py-2 m-0" for="scategoria">Categoria</label>
                     </li>
                     <li class="pl-0">
-                      <input class="d-none" type="radio" id="sprecio" name="categoriaSort" value="price">
+                      <input class="d-none" type="radio" id="sprecio" name="sort" value="price">
                       <label class="w-100 pl-4 py-2 m-0" for="sprecio">precio</label>
                     </li>
                     <li class="pl-0">
-                      <input class="d-none" type="radio" id="sdescuento" name="categoriaSort" value="discont">
+                      <input class="d-none" type="radio" id="sdescuento" name="sort" value="discont">
                       <label class="w-100 pl-4 py-2 m-0" for="sdescuento">descuento</label>
                     </li>
                   </ul>
